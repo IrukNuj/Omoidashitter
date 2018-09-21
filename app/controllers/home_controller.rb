@@ -7,9 +7,16 @@ class HomeController < ApplicationController
     end
   end
 
+  def tweet
+
+  end
+
   def login
   end
 
+  private
+  def twitter_client
 
+  end
 
 end

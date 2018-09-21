@@ -39,6 +39,7 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # 追加のGem
 gem 'omniauth'
 gem 'omniauth-twitter'
+gem 'twitter', "~> 4.8"
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
