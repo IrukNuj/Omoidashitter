@@ -8,15 +8,15 @@ class HomeController < ApplicationController
       @client = twitter_client
 
       # tweet全取得
-      @client_timeline = Array.new
-      search_count = (@client.user.tweets_count / 200) + 1
-
-      @client_timeline_last = @client.user_timeline.first
-
-      search_count.times do |i|
-        @client_timeline.push(@client.user_timeline({max_id: @client_timeline_last.id, count: 200}))
-        @client_timeline_last = @client_timeline.last.last
-      end
+      # @client_timeline = Array.new
+      # search_count = (@client.user.tweets_count / 200) + 1
+      #
+      # @client_timeline_last = @client.user_timeline.first
+      #
+      # search_count.times do |i|
+      #   @client_timeline.push(@client.user_timeline({max_id: @client_timeline_last.id, count: 200}))
+      #   @client_timeline_last = @client_timeline.last.last
+      # end
 
     end
   end
@@ -36,7 +36,7 @@ class HomeController < ApplicationController
     tweet_text = @client_timeline.sample.sample
     # tweet_date = @client_timeline.sample.sample
 
-    @client.update!("#{tweet_text.text} \nFrom : #{tweet_text.created_at.strftime("%Y/%m/%d")}　#おもいだしったー")
+    @client.update!("#{tweet_text.text} \n#{tweet_text.created_at.strftime("%Y/%m/%d")}　#おもいだしったー")
 
     redirect_to root_url
   end
