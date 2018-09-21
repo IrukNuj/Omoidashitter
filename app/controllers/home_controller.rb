@@ -38,6 +38,7 @@ class HomeController < ApplicationController
 
     @client.update!("#{tweet_text.text} \n#{tweet_text.created_at.strftime("%Y/%m/%d")}　#おもいだしったー")
 
+    flash[:success] = "ツイートしました"
     redirect_to root_url
   end
 
