@@ -12,9 +12,6 @@ class HomeController < ApplicationController
       search_count = (@client.user.tweets_count / 200) + 1
 
       @client_timeline_last = @client.user_timeline.first
-      # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
-      # @client_timeline_last = @client_timeline.last.last
-      # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
 
       search_count.times do |i|
         @client_timeline.push(@client.user_timeline({max_id: @client_timeline_last.id, count: 200}))
@@ -27,19 +24,19 @@ class HomeController < ApplicationController
   def tweet
     @client = twitter_client
     @client_timeline = Array.new
-    search_count = @client.user.tweets_count / 200
+    search_count = @client.user.tweets_count / 200 + 1
 
     @client_timeline_last = @client.user_timeline.first
-    # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
-    # @client_timeline_last = @client_timeline.last.last
-    # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
 
     search_count.times do |i|
       @client_timeline.push(@client.user_timeline({max_id: @client_timeline_last.id, count: 200}))
       @client_timeline_last = @client_timeline.last.last
     end
 
-    @client.update(@client_timeline.sample.text)
+    tweet_text = @client_timeline.sample.sample
+    # tweet_date = @client_timeline.sample.sample
+
+    @client.update!("#{tweet_text.text} \nFrom : #{tweet_text.created_at.strftime("%Y/%m/%d")}　#おもいだしったー")
 
     redirect_to root_url
   end
