@@ -2,7 +2,7 @@ class HomeController < ApplicationController
   # before_action :twitter_client
   def index
     if session[:user_id].nil?
-      redirect_to action:'login'
+      redirect_to action: 'login'
     else
       @user = User.find(session[:user_id])
       @client = twitter_client
@@ -17,7 +17,7 @@ class HomeController < ApplicationController
       # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
 
       search_count.times do |i|
-        @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
+        @client_timeline.push(@client.user_timeline({max_id: @client_timeline_last.id, count: 200}))
         @client_timeline_last = @client_timeline.last.last
       end
 
@@ -25,6 +25,7 @@ class HomeController < ApplicationController
   end
 
   def tweet
+    @client = twitter_client
     @client_timeline = Array.new
     search_count = @client.user.tweets_count / 200
 
@@ -34,9 +35,12 @@ class HomeController < ApplicationController
     # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
 
     search_count.times do |i|
-      @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
+      @client_timeline.push(@client.user_timeline({max_id: @client_timeline_last.id, count: 200}))
       @client_timeline_last = @client_timeline.last.last
     end
+
+    @client.update(@client_timeline.sample.text)
+
     redirect_to root_url
   end
 
@@ -44,12 +48,13 @@ class HomeController < ApplicationController
   end
 
   private
-    def twitter_client
-      Twitter::REST::Client.new do |config|
-        config.consumer_key = Rails.application.secrets.twitter_api_key
-        config.consumer_secret = Rails.application.secrets.twitter_api_secret
-        config.access_token = session[:oauth_token]
-        config.access_token_secret = session[:oauth_token_secret]
-      end
+
+  def twitter_client
+    Twitter::REST::Client.new do |config|
+      config.consumer_key = Rails.application.secrets.twitter_api_key
+      config.consumer_secret = Rails.application.secrets.twitter_api_secret
+      config.access_token = session[:oauth_token]
+      config.access_token_secret = session[:oauth_token_secret]
     end
+  end
 end
