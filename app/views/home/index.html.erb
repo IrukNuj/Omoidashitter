@@ -14,13 +14,13 @@
 <%= link_to "logout" ,:controller => "sessions", :action => "destroy" %>
 
 
-<%= @client_timeline.size%>
-<%= @client_timeline[0].size%>
-<%= @client.user.tweets_count %>
-<ol>
-  <% @client_timeline.each do |first_t| %>
-    <% first_t.each do |sec_t| %>
-      <li><%= sec_t.text %></li>
-    <% end %>
-  <% end %>
-</ol>
+<%#= @client_timeline.size%>
+<%#= @client_timeline[0].size%>
+<%#= @client.user.tweets_count %>
+<!--<ol>-->
+  <%# @client_timeline.each do |first_t| %>
+    <%# first_t.each do |sec_t| %>
+<!--      <li><%#= sec_t.text %></li>-->
+    <%# end %>
+  <%# end %>
+<!--</ol>-->
