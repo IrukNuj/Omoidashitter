@@ -13,8 +13,9 @@
 <%= link_to "Tweet" ,:controller => "home", :action => "tweet" %>
 <%= link_to "logout" ,:controller => "sessions", :action => "destroy" %>
 
-<% flash[:success] %>
-
+<% if flash[:success] %>
+  <%= flash[:success] %>
+<% end %>
 
 <%#= @client_timeline.size%>
 <%#= @client_timeline[0].size%>
