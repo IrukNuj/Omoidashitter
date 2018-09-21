@@ -1,6 +1,8 @@
+<!--<p><%#= "uid:" + @user[:uid] %></p>-->
 <p><%= "name:" + @user[:nickname]%></p>
 <p><%= "screen_name:" + @user[:name]%></p>
 <p><%= "image_url:" + @user[:image_url]%></p>
+<img src=<%= @user[:image_url] %>>
 <p><%= "description:" + @user[:description]%></p>
 
 <!--# TODO 早急に消す-->
@@ -10,3 +12,15 @@
 
 <%= link_to "Tweet" ,:controller => "home", :action => "tweet" %>
 <%= link_to "logout" ,:controller => "sessions", :action => "destroy" %>
+
+
+<%= @client_timeline.size%>
+<%= @client_timeline[0].size%>
+<%= @client.user.tweets_count %>
+<ol>
+  <% @client_timeline.each do |first_t| %>
+    <% first_t.each do |sec_t| %>
+      <li><%= sec_t.text %></li>
+    <% end %>
+  <% end %>
+</ol>

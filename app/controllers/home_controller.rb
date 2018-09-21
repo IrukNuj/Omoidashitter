@@ -5,12 +5,38 @@ class HomeController < ApplicationController
       redirect_to action:'login'
     else
       @user = User.find(session[:user_id])
+      @client = twitter_client
+
+      # tweet全取得
+      @client_timeline = Array.new
+      search_count = (@client.user.tweets_count / 200) + 1
+
+      @client_timeline_last = @client.user_timeline.first
+      # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
+      # @client_timeline_last = @client_timeline.last.last
+      # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
+
+      search_count.times do |i|
+        @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
+        @client_timeline_last = @client_timeline.last.last
+      end
+
     end
   end
 
   def tweet
-    @client = twitter_client
-    @client.update("アプリから呟いてるよ")
+    @client_timeline = Array.new
+    search_count = @client.user.tweets_count / 200
+
+    @client_timeline_last = @client.user_timeline.first
+    # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
+    # @client_timeline_last = @client_timeline.last.last
+    # @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
+
+    search_count.times do |i|
+      @client_timeline.push(@client.user_timeline({max_id:@client_timeline_last.id,count:200}))
+      @client_timeline_last = @client_timeline.last.last
+    end
     redirect_to root_url
   end
 
