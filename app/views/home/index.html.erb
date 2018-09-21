@@ -2,4 +2,9 @@
 <p><%= "screen_name:" + @user[:name]%></p>
 <p><%= "image_url:" + @user[:image_url]%></p>
 <p><%= "description:" + @user[:description]%></p>
+
+# TODO 早急に消す
+
+<p><%= "きー:" + @user[:oauth_token] %></p>
+<p><%= "せくれっときー:" + @user[:oauth_token_secret] %></p>
 <%= link_to "logout" ,:controller => "sessions", :action => "destroy" %>
