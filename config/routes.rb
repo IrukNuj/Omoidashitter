@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   get 'home/index'
   get 'home/login'
+  get 'home/tweet'
   get 'sessions/create'
   get 'sessions/destroy'
   root 'home#index'

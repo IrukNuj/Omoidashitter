@@ -3,8 +3,10 @@
 <p><%= "image_url:" + @user[:image_url]%></p>
 <p><%= "description:" + @user[:description]%></p>
 
-# TODO 早急に消す
+<!--# TODO 早急に消す-->
 
-<p><%= "きー:" + @user[:oauth_token] %></p>
-<p><%= "せくれっときー:" + @user[:oauth_token_secret] %></p>
+<!--<p><%#= "きー:" + @user[:oauth_token] %></p>-->
+<!--<p><%#= "せくれっときー:" + @user[:oauth_token_secret] %></p>-->
+
+<%= link_to "Tweet" ,:controller => "home", :action => "tweet" %>
 <%= link_to "logout" ,:controller => "sessions", :action => "destroy" %>
