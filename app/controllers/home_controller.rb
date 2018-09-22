@@ -55,8 +55,7 @@ class HomeController < ApplicationController
 
 
     @update_tweet_text = @tweet_text_link_excluded.truncate(110, omission: '...')
-    @update_text = "#{@update_tweet_text}\r\n
-#{@tweet_date}"
+    @update_text = "#{@update_tweet_text}　\r\n#{@tweet_date}"
   end
 
 
