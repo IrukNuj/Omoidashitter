@@ -14,31 +14,37 @@ class HomeController < ApplicationController
     @user = User.find(session[:user_id])
     @client = twitter_client
 
-    @search_count = @client.user.tweets_count / 20
+    if session[:tweet_items].nil?
+      if session[:tweet_items].nil?
+        session[:tweet_items] = Array.new
+      end
+      @search_count = @client.user.tweets_count / 20
 
-    @first_twi_id = @client.user_timeline.first.id
+      @first_twi_id = @client.user_timeline.first.id
 
-    @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@first_twi_id}&reset_error_state=false")
-    @twi_result = JSON.parse(Net::HTTP.get(@uri))
-
-    @twi_items = @twi_result["items_html"]
-    @twi_ids = @twi_items.scan(/data-tweet-id="(.+)"/)
-    @twi_ids.flatten!
-
-    @search_count.times do |i|
-      @twi_id_to_url = @twi_ids.last
-      @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@twi_id_to_url}&reset_error_state=false")
+      @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@first_twi_id}&reset_error_state=false")
       @twi_result = JSON.parse(Net::HTTP.get(@uri))
+
       @twi_items = @twi_result["items_html"]
-      @twi_ids.push(@twi_items.scan(/data-tweet-id="(.+)"/))
+      @twi_ids = @twi_items.scan(/data-tweet-id="(.+)"/)
       @twi_ids.flatten!
-      sleep(0.1)
-      if i >= 80
-        break
+
+      @search_count.times do |i|
+        @twi_id_to_url = @twi_ids.last
+        @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@twi_id_to_url}&reset_error_state=false")
+        @twi_result = JSON.parse(Net::HTTP.get(@uri))
+        @twi_items = @twi_result["items_html"]
+        @twi_ids.push(@twi_items.scan(/data-tweet-id="(.+)"/))
+        @twi_ids.flatten!
+        session[:tweet_items].push(@twi_ids.sample)
+        sleep(0.1)
+        if i >= 80
+          break
+        end
       end
     end
 
-    tweet_text = @client.status(@twi_ids.sample)
+    tweet_text = @client.status(session[:tweet_items].sample)
 
     @client.update!("#{tweet_text.text} \n#{tweet_text.created_at.strftime("%Y/%m/%d")}　#おもいだしったー")
 
