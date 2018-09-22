@@ -7,6 +7,8 @@ class HomeController < ApplicationController
       @user = User.find(session[:user_id])
       @client = twitter_client
 
+      # @client_timeline_last = @client.user_timeline.first
+      # @client_timeline = (@client.user_timeline({max_id: @client_timeline_last.id, count: 200,exclude_replies: true}))
       # tweet全取得
       # @client_timeline = Array.new
       # search_count = (@client.user.tweets_count / 200) + 1
@@ -24,16 +26,19 @@ class HomeController < ApplicationController
   def tweet
     @client = twitter_client
     @client_timeline = Array.new
-    search_count = @client.user.tweets_count / 200 + 1
+    search_count = @client.user.tweets_count / 200
 
     @client_timeline_last = @client.user_timeline.first
 
     search_count.times do |i|
       @client_timeline.push(@client.user_timeline({max_id: @client_timeline_last.id, count: 200}))
       @client_timeline_last = @client_timeline.last.last
+      if i  >= 10
+        break
+      end
     end
 
-    tweet_text = @client_timeline.sample.sample
+    tweet_text = @client_timeline.last.sample
     # tweet_date = @client_timeline.sample.sample
 
     @client.update!("#{tweet_text.text} \n#{tweet_text.created_at.strftime("%Y/%m/%d")}　#おもいだしったー")

@@ -17,13 +17,18 @@
   <%= flash[:success] %>
 <% end %>
 
+
+
+<p></p>
+<p><%= @client.user.created_at %></p>
+<p><%= Time.now %></p>
+<p><%= Time.now - @client.user.created_at %></p>
+
 <%#= @client_timeline.size%>
 <%#= @client_timeline[0].size%>
 <%#= @client.user.tweets_count %>
 <!--<ol>-->
   <%# @client_timeline.each do |first_t| %>
-    <%# first_t.each do |sec_t| %>
-<!--      <li><%#= sec_t.text %></li>-->
-    <%# end %>
+<!--      <li><%#= first_t.text %></li>-->
   <%# end %>
 <!--</ol>-->
