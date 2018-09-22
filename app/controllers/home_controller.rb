@@ -62,14 +62,14 @@ class HomeController < ApplicationController
 
       # 配列やダブルクオーテーションを処理
       @tweet_text = CGI.unescapeHTML(@tweet_text[0][0])
-      @tweet_date = @tweet_date[0][0]
+      @tweet_date_text = @tweet_date[0][0]
 
       # スクレイピングの都合で発生した各タグを処理。正規表現抜きで処理できるならしたい。
       @tweet_text_link_excluded = @tweet_text.gsub(/<.*?>/, "").gsub(/<\/a>/, "")
 
       # 文字数制限。
       @update_tweet_text = @tweet_text_link_excluded.truncate(120, omission: '...')
-      @update_text = "#{@update_tweet_text}\r\n#{@tweet_date}"
+      @update_text = "#{@update_tweet_text}\r\n#{@tweet_date_text}"
     end
   end
 
