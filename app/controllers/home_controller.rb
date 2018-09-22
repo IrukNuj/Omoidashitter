@@ -62,7 +62,7 @@ class HomeController < ApplicationController
 
       # 配列やダブルクオーテーションを処理
       @tweet_text = @tweet_text[0][0]
-      @tweet_text = CGI.unescapeHTML()
+      @tweet_text = CGI.unescapeHTML(@tweet_text)
       @tweet_date_text = @tweet_date
 
       # スクレイピングの都合で発生した各タグを処理。正規表現抜きで処理できるならしたい。
