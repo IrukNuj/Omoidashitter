@@ -54,8 +54,8 @@ class HomeController < ApplicationController
       loop do
         @tweet_uri = Net::HTTP.get(URI.parse("https://twitter.com/#{@user[:nickname]}/status/#{session[:tweet_items].sample}"))
         @tweet_text = @tweet_uri.force_encoding("UTF-8").scan(/<p class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text".+>(.+)<\/p>/)
-        @tweet_date = @tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d+年\d+月\d+日)<\/span>/)
-        unless @tweet_text.class.nil? && @tweet_date.class.nil?
+        @tweet_date = @tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
+        unless @tweet_text.nil? || @tweet_date.nil?
           break
         end
       end
