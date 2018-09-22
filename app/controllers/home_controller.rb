@@ -1,6 +1,7 @@
 class HomeController < ApplicationController
   require 'open-uri'
   # before_action :twitter_client
+
   def index
     if session[:user_id].nil?
       redirect_to action: 'login'
@@ -9,6 +10,7 @@ class HomeController < ApplicationController
       @client = twitter_client
     end
   end
+
 
   def tweet
     @user = User.find(session[:user_id])
@@ -37,20 +39,18 @@ class HomeController < ApplicationController
         @twi_ids.push(@twi_items.scan(/data-tweet-id="(.+)"/))
         @twi_ids.flatten!
         session[:tweet_items].push(@twi_ids.sample)
-        sleep(0.1)
+        sleep(0.05)
         if i >= 80
           break
         end
       end
     end
 
-    tweet_text = @client.status(session[:tweet_items].sample)
+    @tweet_uri = Net::HTTP.get(URI.parse("https://twitter.com/#{@user[:nickname]}/status/#{session[:tweet_items].sample}"))
+    @tweet_text = @tweet_uri.force_encoding("UTF-8").scan(/<p class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text" lang="ja" data-aria-label-part="0">(.+)<\/p>/)[0][0]
 
-    @client.update!("#{tweet_text.text} \n#{tweet_text.created_at.strftime("%Y/%m/%d")}　#おもいだしったー")
-
-    flash[:success] = "ツイートしました"
-    redirect_to root_url
   end
+
 
   def login
   end
