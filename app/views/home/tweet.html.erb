@@ -4,13 +4,13 @@
 <p><%= @tweet_date %></p>
 <p><%= @update_text %></p>
 
-<% @tweet_text_link_excluded_and_scan.each do |t| %>
-  <p><%= t %></p>
-<% end %>
+<%# @tweet_text_link_excluded_and_scan.each do |t| %>
+<!--  <p><%#= t %></p>-->
+<%# end %>
 
-<% @tweet_text_link_excluded_and_scan.each do |t| %>
-  <%= t %>
-<% end %>
+<%# @tweet_text_link_excluded_and_scan.each do |t| %>
+  <%#= t %>
+<%# end %>
 
 
 <a href="https://twitter.com/share?url=https://bit.ly/2ptBbQj&text=<%= @update_text %>&hashtags=おもいだしったー" target="_blank" class="twitter-share-button" data-show-count="false"></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
