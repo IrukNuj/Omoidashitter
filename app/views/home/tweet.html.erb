@@ -1,3 +1,16 @@
 <p><%= @tweet_text %></p>
+<p><%= @tweet_text_link_excluded %></p>
+<br>
+<p><%= @tweet_date %></p>
+<p><%= @update_text %></p>
 
-<a href="http://twitter.com/share?url=[シェアするURL]&text=[ツイート内テキスト]&via=[ツイート内に含むユーザ名]&related=[ツイート後に表示されるユーザー]&hashtags=[ハッシュタグ]" target="_blank">ツイート</a>
+<% @tweet_text_link_excluded_and_scan.each do |t| %>
+  <p><%= t %></p>
+<% end %>
+
+<% @tweet_text_link_excluded_and_scan.each do |t| %>
+  <%= t %>
+<% end %>
+
+
+<a href="https://twitter.com/share?url=https://bit.ly/2ptBbQj&text=<%= @update_text %>&hashtags=おもいだしったー" target="_blank" class="twitter-share-button" data-show-count="false"></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

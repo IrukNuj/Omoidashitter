@@ -48,7 +48,14 @@ class HomeController < ApplicationController
 
     @tweet_uri = Net::HTTP.get(URI.parse("https://twitter.com/#{@user[:nickname]}/status/#{session[:tweet_items].sample}"))
     @tweet_text = @tweet_uri.force_encoding("UTF-8").scan(/<p class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text" lang="ja" data-aria-label-part="0">(.+)<\/p>/)[0][0]
+    @tweet_date = @tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)[0][0]
 
+    @tweet_text_link_excluded = @tweet_text.gsub(/<a href=.*?>/,"").gsub(/<\/a>/,"")
+    @tweet_text_link_excluded_and_scan = @tweet_text_link_excluded.scan(/>(.+)</)
+
+    @update_tweet_text = @tweet_text_link_excluded.truncate(110, omission: '...')
+    @update_text = "#{@update_tweet_text}\r\n
+#{@tweet_date}"
   end
 
 
