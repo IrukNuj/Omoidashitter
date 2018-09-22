@@ -44,7 +44,7 @@ class HomeController < ApplicationController
           @twi_ids.flatten!
           session[:tweet_items].push(@twi_ids.sample)
           sleep(0.03)
-          if i >= 100
+          if i >= 30
             break
           end
         end
