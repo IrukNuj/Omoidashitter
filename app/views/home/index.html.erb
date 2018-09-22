@@ -1,3 +1,5 @@
+<p>色々改装中です、機能はするから安心してね。</p>
+
 <!--<p><%#= "uid:" + @user[:uid] %></p>-->
 <p><%= "name:" + @user[:nickname]%></p>
 <p><%= "screen_name:" + @user[:name]%></p>
@@ -17,7 +19,12 @@
   <%= flash[:success] %>
 <% end %>
 
-
+<!--イカテスト-->
+<%= @oembed_tweets %>
+<%= @search_url %>
+<p><%= @doc_twi %></p>
+<!--<p><%#= @doc %></p>-->
+<!--ここまで？-->
 
 <p></p>
 <p><%= @client.user.created_at %></p>

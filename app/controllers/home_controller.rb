@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  require 'open-uri'
   # before_action :twitter_client
   def index
     if session[:user_id].nil?
@@ -6,6 +7,20 @@ class HomeController < ApplicationController
     else
       @user = User.find(session[:user_id])
       @client = twitter_client
+
+
+      @search_url = URI.escape("https://twitter.com/#{@user.nickname}")
+      @doc = Nokogiri.HTML(open(@search_url))
+      @doc_twi = @doc.css('p,tweet-text')
+
+      @oembed_tweets = Array.new
+      @doc.css('p,js-tweet-text').each_with_index do |li, index|
+        tweet_id = li['data-item-id']
+
+        if tweet_id
+          @oembed_tweets.push(@twitter_client.oembed(tweet_id).html)
+        end
+      end
 
       # @client_timeline_last = @client.user_timeline.first
       # @client_timeline = (@client.user_timeline({max_id: @client_timeline_last.id, count: 200,exclude_replies: true}))
@@ -24,6 +39,7 @@ class HomeController < ApplicationController
   end
 
   def tweet
+
     @client = twitter_client
     @client_timeline = Array.new
     search_count = @client.user.tweets_count / 200
