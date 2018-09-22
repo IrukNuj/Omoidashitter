@@ -24,7 +24,7 @@ class HomeController < ApplicationController
         if session[:tweet_items].nil?
           session[:tweet_items] = Array.new
         end
-        @search_count = @client.user.tweets_count / 50
+        @search_count = @client.user.tweets_count / 100
 
         @first_twi_id = @client.user_timeline.first.id
 
