@@ -19,12 +19,15 @@
   <%= flash[:success] %>
 <% end %>
 
-<!--イカテスト-->
-<%= @oembed_tweets %>
-<%= @search_url %>
-<p><%= @doc_twi %></p>
-<!--<p><%#= @doc %></p>-->
-<!--ここまで？-->
+<a href="https://twitter.com/intent/tweet?button_hashtag=%E3%81%8A%E3%82%82%E3%81%84%E3%81%A0%E3%81%97%E3%81%A3%E3%81%9F%E3%83%BC&ref_src=twsrc%5Etfw" class="twitter-hashtag-button" data-show-count="false">Tweet #%E3%81%8A%E3%82%82%E3%81%84%E3%81%A0%E3%81%97%E3%81%A3%E3%81%9F%E3%83%BC</a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+
+<p>twitterから引っ張ってくるJSON</p>
+<p><%= @twi_json %></p>
+<p></p>
+<br>
+<br>
+<p></p>
+<p><%= @twi_result %></p>
 
 <p></p>
 <p><%= @client.user.created_at %></p>

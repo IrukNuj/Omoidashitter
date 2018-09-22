@@ -13,14 +13,20 @@ class HomeController < ApplicationController
       @doc = Nokogiri.HTML(open(@search_url))
       @doc_twi = @doc.css('p,tweet-text')
 
-      @oembed_tweets = Array.new
-      @doc.css('p,js-tweet-text').each_with_index do |li, index|
-        tweet_id = li['data-item-id']
+      @first_twi_id = @client.user_timeline.first.id
 
-        if tweet_id
-          @oembed_tweets.push(@twitter_client.oembed(tweet_id).html)
-        end
-      end
+      uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@first_twi_id}&reset_error_state=false")
+      @twi_json = Net::HTTP.get(uri)
+      @twi_result = JSON.parse(@twi_json)
+
+      # @oembed_tweets = Array.new
+      # @doc.css('p,js-tweet-text').each_with_index do |li, index|
+      #   tweet_id = li['data-item-id']
+      #
+      #   if tweet_id
+      #     @oembed_tweets.push(@twitter_client.oembed(tweet_id).html)
+      #   end
+      # end
 
       # @client_timeline_last = @client.user_timeline.first
       # @client_timeline = (@client.user_timeline({max_id: @client_timeline_last.id, count: 200,exclude_replies: true}))
