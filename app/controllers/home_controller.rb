@@ -8,10 +8,7 @@ class HomeController < ApplicationController
       @user = User.find(session[:user_id])
       @client = twitter_client
 
-
       @search_url = URI.escape("https://twitter.com/#{@user.nickname}")
-      @doc = Nokogiri.HTML(open(@search_url))
-      @doc_twi = @doc.css('p,tweet-text')
 
       @first_twi_id = @client.user_timeline.first.id
 
