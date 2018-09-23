@@ -43,7 +43,7 @@ class HomeController < ApplicationController
           @twi_ids.push(@twi_items.scan(/data-tweet-id="(.+)"/))
           @twi_ids.flatten!
           session[:tweet_items].push(@twi_ids.sample)
-          if i >= 30
+          if i >= 10
             break
           end
         end
