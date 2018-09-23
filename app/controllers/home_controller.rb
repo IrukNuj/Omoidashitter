@@ -24,7 +24,7 @@ class HomeController < ApplicationController
         if session[:tweet_items].nil?
           session[:tweet_items] = Array.new
         end
-        @search_count = @client.user.tweets_count / 100
+        @search_count = @client.user.tweets_count / 200
 
         @first_twi_id = @client.user_timeline.first.id
 
@@ -43,9 +43,6 @@ class HomeController < ApplicationController
           @twi_ids.push(@twi_items.scan(/data-tweet-id="(.+)"/))
           @twi_ids.flatten!
           session[:tweet_items].push(@twi_ids.sample)
-          if i >= 10
-            break
-          end
         end
       end
 
