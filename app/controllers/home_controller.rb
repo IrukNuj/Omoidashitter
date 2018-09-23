@@ -55,32 +55,31 @@ class HomeController < ApplicationController
           break
         end
       end
+
+      # 配列やダブルクオーテーションを処理
+      @tweet_text = CGI.unescapeHTML(@tweet_text[0][0])
+      @tweet_date_text = @tweet_date[0][0]
+
+      # スクレイピングの都合で発生した各タグを処理。正規表現抜きで処理できるならしたい。
+      @tweet_text_link_excluded = @tweet_text.gsub(/<.*?>/, "").gsub(/<\/a>/, "")
+
+      # 文字数制限。
+      @update_tweet_text = @tweet_text_link_excluded.truncate(120, omission: '...')
+      @update_text = "#{@update_tweet_text}\r\n#{@tweet_date_text}"
     end
 
-    # 配列やダブルクオーテーションを処理
-    @tweet_text = CGI.unescapeHTML(@tweet_text[0][0])
-    @tweet_date_text = @tweet_date[0][0]
 
-    # スクレイピングの都合で発生した各タグを処理。正規表現抜きで処理できるならしたい。
-    @tweet_text_link_excluded = @tweet_text.gsub(/<.*?>/, "").gsub(/<\/a>/, "")
+    def login
+    end
 
-    # 文字数制限。
-    @update_tweet_text = @tweet_text_link_excluded.truncate(120, omission: '...')
-    @update_text = "#{@update_tweet_text}\r\n#{@tweet_date_text}"
-  end
+    private
 
-
-  def login
-  end
-
-  private
-
-  def twitter_client
-    Twitter::REST::Client.new do |config|
-      config.consumer_key = Rails.application.secrets.twitter_api_key
-      config.consumer_secret = Rails.application.secrets.twitter_api_secret
-      config.access_token = @user.oauth_token
-      config.access_token_secret = @user.oauth_token_secret
+    def twitter_client
+      Twitter::REST::Client.new do |config|
+        config.consumer_key = Rails.application.secrets.twitter_api_key
+        config.consumer_secret = Rails.application.secrets.twitter_api_secret
+        config.access_token = @user.oauth_token
+        config.access_token_secret = @user.oauth_token_secret
+      end
     end
   end
-end
