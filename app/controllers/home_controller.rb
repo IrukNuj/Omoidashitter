@@ -8,18 +8,9 @@ class HomeController < ApplicationController
     else
       @user = User.find(session[:user_id])
       @client = twitter_client
-    end
-  end
-
-
-  def tweet
-    if session[:user_id].nil?
-      redirect_to action: 'login'
-    else
-      @user = User.find(session[:user_id])
-      @client = twitter_client
 
       # sessionにツイートデータが無ければ、ツイート取得クローラ走らせてちょびちょびsessionに保存
+
       if session[:tweet_items].nil?
         if session[:tweet_items].nil?
           session[:tweet_items] = Array.new
@@ -46,15 +37,26 @@ class HomeController < ApplicationController
         end
       end
 
+    end
+  end
+
+
+  def tweet
+    if session[:user_id].nil?
+      redirect_to action: 'login'
+    else
+      @user = User.find(session[:user_id])
+      @client = twitter_client
+
       # テキストと時刻がちゃんと取得できるまでIDを回す
-      # loop do
+      loop do
         @tweet_uri = Net::HTTP.get(URI.parse("https://twitter.com/#{@user[:nickname]}/status/#{session[:tweet_items].sample}"))
         @tweet_text = @tweet_uri.force_encoding("UTF-8").scan(/<p class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text".+>(.+)<\/p>/)
         @tweet_date = @tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
-      #   unless @tweet_text.empty? || @tweet_date.empty?
-      #     break
-      #   end
-      # end
+        unless @tweet_text.empty? || @tweet_date.empty?
+          break
+        end
+      end
 
       # 配列やダブルクオーテーションを処理
       @tweet_text = CGI.unescapeHTML(@tweet_text[0][0])
