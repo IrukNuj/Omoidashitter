@@ -40,6 +40,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'twitter', '5.16.0'
+gem 'bootstrap-sass'
+gem 'bulma'
+gem 'honoka-rails', '>= 3.3.6.3'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

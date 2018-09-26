@@ -1,5 +1,9 @@
 {
   "name": "Omoidashitter",
+  "version": "1.0.0",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "bootstrap-honoka": "^4.1.3",
+    "bootstrap-umi": "^4.0.0"
+  }
 }
