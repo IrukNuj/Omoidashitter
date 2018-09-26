@@ -13,6 +13,8 @@
 <!--<p><%#= "きー:" + @user[:oauth_token] %></p>-->
 <!--<p><%#= "せくれっときー:" + @user[:oauth_token_secret] %></p>-->
 
+<%= @doc %>
+
 <%= link_to "Tweet" ,:controller => "home", :action => "tweet" %>
 <%= link_to "logout" ,:controller => "sessions", :action => "destroy" %>
 <br>
