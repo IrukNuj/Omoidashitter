@@ -3,7 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "@rails/webpacker": "3.5",
+    "babel-preset-react": "^6.24.1",
     "bootstrap-honoka": "^4.1.3",
-    "bootstrap-umi": "^4.0.0"
+    "bootstrap-umi": "^4.0.0",
+    "prop-types": "^15.6.2",
+    "react": "^16.5.2",
+    "react-dom": "^16.5.2"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "2.11.2"
+  },
+  "scripts": {
+    "start": "bundle exec rails s & bin/webpack-dev-server"
   }
 }
