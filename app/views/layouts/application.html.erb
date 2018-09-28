@@ -7,43 +7,12 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'hello_react' %>
   </head>
 
   <body>
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="#">Omoidashitter</a>
-      </div>
-<!--        <div class="navbar-end">-->
-          <%# if session[:user_id] %>
-<!--            <figure class="image is-128x128">-->
-<!--              <img class="is-rounded" src=<%#= @user[:image_url] %>>-->
-<!--            </figure>-->
-          <%# else %>
-<!--            <div class="nav-item">-->
-<!--              <a href="#">ログイン</a>-->
-<!--            </div>-->
-          <%# end %>
-        </div>
-    </nav>
-
-    <%= javascript_pack_tag 'hello_react' %>
-
-    <div class="hero is-info is-bold">
-      <div class="hero-body">
-        <div class="container">
-          <figure class="image is-128x128">
-            <img class="is-rounded" src=<%= @user[:image_url] %>>
-          </figure>
-        </div>
-        <div class="container">
-          <% if session[:user_id] %>
-            <h1 class="subtitle"><%= "name:@" + @user[:nickname]%></h1>
-            <h2 class="subtitle"><%= "screen_name:" + @user[:name]%></h2>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <div id="root"></div>
+    <% javascript_pack_tag 'hello_react' %>
     <%= yield %>
   </body>
 </html>

@@ -43,7 +43,7 @@ class HomeController < ApplicationController
         if session[:tweet_items].nil?
           session[:tweet_items] = Array.new
         end
-        @search_count = @client.user.tweets_count / 20
+        @search_count = @client.user.tweets_count / 35
         @first_twi_id = @client.user_timeline.first.id
 
         @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@first_twi_id}&reset_error_state=false")
@@ -57,18 +57,25 @@ class HomeController < ApplicationController
           @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@twi_ids.last}&reset_error_state=false")
           @twi_result = JSON.parse(Net::HTTP.get(@uri))
           @twi_items = @twi_result["items_html"]
-          @twi_ids.push(@twi_items.scan(/data-tweet-id="(.+)"/))
+          twi_items_scaned = @twi_items.scan(/data-tweet-id="(.+)"/)
+          if i * 2 >= @search_count
+            session[:tweet_items].push(twi_items_scaned.sample)
+          end
+          session[:tweet_items].flatten!
+          puts session[:tweet_items].last
+          @twi_ids.push(twi_items_scaned)
           @twi_ids.flatten!
-          session[:tweet_items].push(@twi_ids.sample)
+          # session[:tweet_items].push(@twi_ids.sample)
 
           # 実装時には死んでも消さないこと
-          sleep(1)
-          #
+          sleep(0.5)
 
           if i >= 50
             break
           end
+
         end
+
       end
 
       # テキストと時刻がちゃんと取得できるまでIDを回す
@@ -90,7 +97,7 @@ class HomeController < ApplicationController
 
       # 文字数制限。
       @update_tweet_text = @tweet_text_link_excluded.truncate(120, omission: '...')
-      @update_text = "#{@update_tweet_text}\r\n#{@tweet_date_text}"
+      @update_text = "#{@update_tweet_text} \r\n#{@tweet_date_text}"
     end
   end
 

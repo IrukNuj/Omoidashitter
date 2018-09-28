@@ -1,23 +1,10 @@
-<p>色々改装中です、機能はするから安心してね。</p>
-<p>500エラー(Sorry,we are something wrong みたいなの)吐くときはcookie削除して再ログインしてみてね。</p>
-
-<!--<p><%#= "uid:" + @user[:uid] %></p>-->
-<p><%= "name:" + @user[:nickname]%></p>
-<p><%= "screen_name:" + @user[:name]%></p>
-<p><%= "image_url:" + @user[:image_url]%></p>
+<p><%= "@#{@user[:nickname]}"%></p>
+<p><%=@user[:name]%></p>
 <img src=<%= @user[:image_url] %>>
-<p><%= "description:" + @user[:description]%></p>
-
-<!--# TODO 早急に消す-->
-
-<!--<p><%#= "きー:" + @user[:oauth_token] %></p>-->
-<!--<p><%#= "せくれっときー:" + @user[:oauth_token_secret] %></p>-->
-
-<%= @doc %>
+<p><%= @user[:description]%></p>
 
 <%= link_to "Tweet" ,:controller => "home", :action => "tweet" %>
 <%= link_to "logout" ,:controller => "sessions", :action => "destroy" %>
-<br>
 
 <br>
 <p><%= session[:tweet_items] %></p>
@@ -25,7 +12,5 @@
 <% if flash[:success] %>
   <%= flash[:success] %>
 <% end %>
-
-<p>ids</p>
 
 
