@@ -43,7 +43,7 @@ class HomeController < ApplicationController
         if session[:tweet_items].nil?
           session[:tweet_items] = Array.new
         end
-        @search_count = @client.user.tweets_count / 35
+        @search_count = @client.user.tweets_count / 70      #35がいいよー！
         @first_twi_id = @client.user_timeline.first.id
 
         @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@first_twi_id}&reset_error_state=false")
@@ -68,7 +68,7 @@ class HomeController < ApplicationController
           # session[:tweet_items].push(@twi_ids.sample)
 
           # 実装時には死んでも消さないこと
-          sleep(1)
+          sleep(0.5)
           if i >= 40
             break
           end
