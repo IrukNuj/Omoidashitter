@@ -1,36 +1,36 @@
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-<script>
-    $(function() {
-        var h = $(window).height();
+<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>-->
+<!--<script>-->
+<!--    $(function() {-->
+<!--        var h = $(window).height();-->
 
-        $('#wrap').css('display','none');
-        $('#loader-bg ,#loader').height(h).css('display','block');
-    });
+<!--        $('#wrap').css('display','none');-->
+<!--        $('#loader-bg ,#loader').height(h).css('display','block');-->
+<!--    });-->
 
-    $(window).load(function () { //全ての読み込みが完了したら実行
-        $('#loader-bg').delay(900).fadeOut(800);
-        $('#loader').delay(600).fadeOut(300);
-        $('#wrap').css('display', 'block');
-    });
+<!--    $(window).load(function () { //全ての読み込みが完了したら実行-->
+<!--        $('#loader-bg').delay(900).fadeOut(800);-->
+<!--        $('#loader').delay(600).fadeOut(300);-->
+<!--        $('#wrap').css('display', 'block');-->
+<!--    });-->
 
-    //10秒たったら強制的にロード画面を非表示
-    $(function(){
-        setTimeout('stopload()',10000);
-    });
+<!--    //10秒たったら強制的にロード画面を非表示-->
+<!--    $(function(){-->
+<!--        setTimeout('stopload()',10000);-->
+<!--    });-->
 
-    function stopload(){
-        $('#wrap').css('display','block');
-        $('#loader-bg').delay(900).fadeOut(800);
-        $('#loader').delay(600).fadeOut(300);
-    }
-</script>
+<!--    function stopload(){-->
+<!--        $('#wrap').css('display','block');-->
+<!--        $('#loader-bg').delay(900).fadeOut(800);-->
+<!--        $('#loader').delay(600).fadeOut(300);-->
+<!--    }-->
+<!--</script>-->
 
-<div id="loader-bg">
-  <div id="loader">
-    <img src="img-loading.gif" width="80" height="80" alt="Now Loading..." />
-    <p>Now Loading...</p>
-  </div>
-</div>
+<!--<div id="loader-bg">-->
+<!--  <div id="loader">-->
+<!--    <img src="img-loading.gif" width="80" height="80" alt="Now Loading..." />-->
+<!--    <p>Now Loading...</p>-->
+<!--  </div>-->
+<!--</div>-->
 
 <section class="section">
   <div class="container">
