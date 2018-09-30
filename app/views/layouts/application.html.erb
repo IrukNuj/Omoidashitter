@@ -11,8 +11,17 @@
   </head>
 
   <body>
-    <div id="root"></div>
-    <% javascript_pack_tag 'hello_react' %>
-    <%= yield %>
+  <nav class="navbar is-primary" role="navigation" aria-label="main navigation">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="/">
+          Omoidashitter
+      </a>
+    </div>
+  </nav>
+<!--    <div id="root"></div>-->
+    <%# javascript_pack_tag 'hello_react' %>
+    <div class="section">
+      <%= yield %>
+    </div>
   </body>
 </html>

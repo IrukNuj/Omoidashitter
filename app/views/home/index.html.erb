@@ -1,13 +1,91 @@
-<p><%= "@#{@user[:nickname]}"%></p>
-<p><%=@user[:name]%></p>
-<img src=<%= @user[:image_url] %>>
-<p><%= @user[:description]%></p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    $(function() {
+        var h = $(window).height();
 
-<%= link_to "Tweet" ,:controller => "home", :action => "tweet" %>
-<%= link_to "logout" ,:controller => "sessions", :action => "destroy" %>
+        $('#wrap').css('display','none');
+        $('#loader-bg ,#loader').height(h).css('display','block');
+    });
 
-<br>
-<p><%= session[:tweet_items] %></p>
+    $(window).load(function () { //全ての読み込みが完了したら実行
+        $('#loader-bg').delay(900).fadeOut(800);
+        $('#loader').delay(600).fadeOut(300);
+        $('#wrap').css('display', 'block');
+    });
+
+    //10秒たったら強制的にロード画面を非表示
+    $(function(){
+        setTimeout('stopload()',10000);
+    });
+
+    function stopload(){
+        $('#wrap').css('display','block');
+        $('#loader-bg').delay(900).fadeOut(800);
+        $('#loader').delay(600).fadeOut(300);
+    }
+</script>
+
+<div id="loader-bg">
+  <div id="loader">
+    <img src="img-loading.gif" width="80" height="80" alt="Now Loading..." />
+    <p>Now Loading...</p>
+  </div>
+</div>
+
+<section class="section">
+  <div class="container">
+    <div class="card">
+      <div class="card-content">
+        <div class="media">
+          <div class="media-left">
+            <figure class="image is-48x48">
+              <img class="usericon-image" src=<%= @user[:image_url] %> alt="Placeholder image">
+            </figure>
+          </div>
+          <div class="media-content">
+            <p class="title is-4"><%=@user[:name]%></p>
+            <p class="subtitle is-6"><%= "@#{@user[:nickname]}"%></p>
+          </div>
+        </div>
+
+        <div class="content">
+          <%= @user[:description]%>
+          <br>
+        </div>
+
+        <nav class="level is-mobile">
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Tweets</p>
+              <p class="subtitle">3,456</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Following</p>
+              <p class="subtitle">123</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Followers</p>
+              <p class="subtitle">456K</p>
+            </div>
+          </div>
+          <div class="level-item has-text-centered">
+            <div>
+              <p class="heading">Likes</p>
+              <p class="subtitle">789</p>
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+    <br>
+    <%= link_to "ツイートを思い出す" ,{:controller => "home", :action => "tweet"},:class => "button is-info" %>
+    <%= link_to "logout" ,{:controller => "sessions", :action => "destroy"},:class => "button is-info" %>
+  </div>
+</section>
 
 <% if flash[:success] %>
   <%= flash[:success] %>

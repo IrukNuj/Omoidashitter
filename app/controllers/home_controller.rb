@@ -58,7 +58,7 @@ class HomeController < ApplicationController
           @twi_result = JSON.parse(Net::HTTP.get(@uri))
           @twi_items = @twi_result["items_html"]
           twi_items_scaned = @twi_items.scan(/data-tweet-id="(.+)"/)
-          if i * 2 >= @search_count
+          if i * 1.5 >= @search_count
             session[:tweet_items].push(twi_items_scaned.sample)
           end
           session[:tweet_items].flatten!
@@ -68,12 +68,10 @@ class HomeController < ApplicationController
           # session[:tweet_items].push(@twi_ids.sample)
 
           # 実装時には死んでも消さないこと
-          sleep(0.5)
-
-          if i >= 50
+          sleep(1)
+          if i >= 40
             break
           end
-
         end
 
       end

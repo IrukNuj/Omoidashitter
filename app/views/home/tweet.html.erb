@@ -1,8 +1,59 @@
-<p><%= @tweet_text %></p>
-<p><%= @tweet_text_link_excluded %></p>
-<br>
-<p><%= @tweet_date_text %></p>
-<p><%= @update_text %></p>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<script>
+    $(function() {
+        var h = $(window).height();
+
+        $('#wrap').css('display','none');
+        $('#loader-bg ,#loader').height(h).css('display','block');
+    });
+
+    $(window).load(function () { //全ての読み込みが完了したら実行
+        $('#loader-bg').delay(900).fadeOut(800);
+        $('#loader').delay(600).fadeOut(300);
+        $('#wrap').css('display', 'block');
+    });
+
+    //10秒たったら強制的にロード画面を非表示
+    $(function(){
+        setTimeout('stopload()',10000);
+    });
+
+    function stopload(){
+        $('#wrap').css('display','block');
+        $('#loader-bg').delay(900).fadeOut(800);
+        $('#loader').delay(600).fadeOut(300);
+    }
+</script>
+
+<div id="loader-bg">
+  <div id="loader">
+    <img src="img-loading.gif" width="80" height="80" alt="Now Loading..." />
+    <p>Now Loading...</p>
+  </div>
+</div>
+<div id="wrap">
+  <div class="box">
+    <article class="media">
+      <figure class="media-left">
+        <figure class="image is-64x64">
+          <img class="usericon-image" src=<%= @user[:image_url] %>>
+        </figure>
+      </figure>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong><%= @user[:name] %></strong>
+            <small><%= @user[:nickname] %></small>
+            <br>
+            <%= @tweet_text_link_excluded %>
+          </p>
+        </div>
+      </div>
+    </article>
+  </div>
+  <br>
 
 
-<a href="https://twitter.com/share?url=https://bit.ly/2ptBbQj&text=<%= @update_text %>&hashtags=おもいだしったー" target="_blank" class="twitter-share-button" data-show-count="false"></a><script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+  <a class="button is-info" href="https://twitter.com/share?url=https://bit.ly/2ptBbQj&text=<%= @update_text %>&hashtags=おもいだしったー" target="_blank" class="twitter-share-button" data-show-count="false">この思い出しをツイート</a>
+  <a class="button is-info"></a>
+</div>

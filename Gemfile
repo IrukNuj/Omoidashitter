@@ -41,9 +41,11 @@ gem 'omniauth'
 gem 'omniauth-twitter'
 gem 'twitter', '5.16.0'
 gem 'bootstrap-sass'
-gem 'bulma'
+gem 'bulma-rails'
 gem 'honoka-rails', '>= 3.3.6.3'
 gem 'webpacker'
+# https://qiita.com/Terunaga/items/19d4f49f3abd3316f098
+gem 'jquery-turbolinks'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
