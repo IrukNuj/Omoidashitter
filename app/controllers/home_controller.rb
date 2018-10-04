@@ -9,8 +9,7 @@ class HomeController < ApplicationController
       @user = User.find(session[:user_id])
       @client = twitter_client
 
-      @first_twi_id = @client.user_timeline.first.id
-
+      # @first_twi_id = @client.user_timeline.first.id
 
       # @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@first_twi_id}&reset_error_state=false")
       # @twi_result = JSON.parse(Net::HTTP.get(@uri))
@@ -26,7 +25,6 @@ class HomeController < ApplicationController
       #
       # @doc = Nokogiri::HTML.parse(html, nil, charset)
       # @doc = @doc.xpath('//a')[0]
-
     end
   end
 
@@ -73,7 +71,6 @@ class HomeController < ApplicationController
             break
           end
         end
-
       end
 
       # テキストと時刻がちゃんと取得できるまでIDを回す

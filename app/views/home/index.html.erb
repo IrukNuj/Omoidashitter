@@ -36,6 +36,7 @@
   <div class="container">
     <div class="card">
       <div class="card-content">
+
         <div class="media">
           <div class="media-left">
             <figure class="image is-48x48">
@@ -57,19 +58,19 @@
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Tweets</p>
-              <p class="subtitle"></p>
+              <p class="subtitle"><%= @user[:tweet_count] %></p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Following</p>
-              <p class="subtitle">123</p>
+              <p class="subtitle"><%= @user[:] %></p>
             </div>
           </div>
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Followers</p>
-              <p class="subtitle">456K</p>
+              <p class="subtitle"><%= @user[:followers_count] %></p>
             </div>
           </div>
           <div class="level-item has-text-centered">
@@ -79,6 +80,7 @@
             </div>
           </div>
         </nav>
+
       </div>
     </div>
     <br>
