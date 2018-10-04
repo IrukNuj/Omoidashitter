@@ -50,8 +50,9 @@
         </div>
 
         <div class="content">
-          <%= @user[:description]%>
-          <br>
+          <p><%= @user[:description]%></p>
+          <p><%= @user.oauth_token %></p>
+          <p><%= @user.oauth_token_secret %></p>
         </div>
 
         <nav class="level is-mobile">
@@ -64,7 +65,7 @@
           <div class="level-item has-text-centered">
             <div>
               <p class="heading">Following</p>
-              <p class="subtitle"><%= @user[:] %></p>
+              <p class="subtitle"><%=  %></p>
             </div>
           </div>
           <div class="level-item has-text-centered">
