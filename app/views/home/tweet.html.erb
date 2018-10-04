@@ -31,6 +31,11 @@
 <!--    <p>Now Loading...</p>-->
 <!--  </div>-->
 <!--</div>-->
+<% if flash[:tweet_limit] %>
+  <div class="notification is-warning">
+    <p><%= flash[:tweet_limit] %></p>
+  </div>
+<% end %>
 
 <div id="wrap">
   <div class="box">
@@ -47,6 +52,8 @@
             <small><%= @user[:nickname] %></small>
             <br>
             <%= @tweet_text_link_excluded %>
+            <br>
+            <%= @tweet_date_text %>
           </p>
         </div>
       </div>
@@ -56,5 +63,6 @@
 
 
   <a class="button is-info" href="https://twitter.com/share?url=https://bit.ly/2ptBbQj&text=<%= @update_text %>&hashtags=おもいだしったー" target="_blank" class="twitter-share-button" data-show-count="false">この思い出しをツイート</a>
-  <a class="button is-info"></a>
+  <%= link_to "もっと昔のツイートを思い出す！" ,{:controller => :home, :action => :tweet_search_repeat },:class => "button is-info" %>
+
 </div>
