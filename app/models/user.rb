@@ -10,8 +10,8 @@ class User < ApplicationRecord
     description = auth[:info][:description]
 
 
-    followers_count = auth[:extra][:raw_info][:followers_count]
-    tweet_count = auth[:extra][:raw_info][:statuses_count]
+    # followers_count = auth[:extra][:raw_info][:followers_count]
+    # tweet_count = auth[:extra][:raw_info][:statuses_count]
 
     # わからんけどアクセストークン欲しいから貰えそうなコード追記
     oauth_token = auth[:credentials][:token]
@@ -22,8 +22,8 @@ class User < ApplicationRecord
       user.name = name
       user.image_url = image_url
       user.description = description
-      user.followers_count = followers_count
-      user.tweet_count = tweet_count
+      # user.followers_count = followers_count
+      # user.tweet_count = tweet_count
 
       user.oauth_token = oauth_token
       user.oauth_token_secret = oauth_token_secret

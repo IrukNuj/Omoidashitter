@@ -44,6 +44,7 @@ gem 'bootstrap-sass'
 gem 'bulma-rails'
 gem 'honoka-rails', '>= 3.3.6.3'
 gem 'webpacker'
+gem 'rails-ujs'
 # https://qiita.com/Terunaga/items/19d4f49f3abd3316f098
 gem 'jquery-turbolinks'
 
