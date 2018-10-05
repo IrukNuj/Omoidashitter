@@ -125,6 +125,10 @@ class HomeController < ApplicationController
         @twi_result = JSON.parse(Net::HTTP.get(@uri))
         @twi_items = @twi_result["items_html"]
         twi_items_scaned = @twi_items.scan(/data-tweet-id="(.+)"/)
+        if twi_items_scaned.empty?
+          flash[:tweet_limit] = "一番古いツイートまで遡りました！"
+          break
+        end
         # if i * 1.5 >= @search_count
         session[:tweet_items].push(twi_items_scaned.sample)
         # end
