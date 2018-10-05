@@ -112,9 +112,8 @@ class HomeController < ApplicationController
         session[:tweet_items] = Array.new
       end
       @search_count = 15 #35がいいよー！
-      @first_twi_id = "1047760333253763072"
 
-      @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@first_twi_id}&reset_error_state=false")
+      @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1")
       @twi_result = JSON.parse(Net::HTTP.get(@uri))
 
       @twi_items = @twi_result["items_html"]
