@@ -30,10 +30,12 @@ class HomeController < ApplicationController
         puts @tweet_text
         unless @tweet_text.empty?
           puts @tweet_text
-          # @tweet_date = tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
-          @tweet_date = tweet_uri.force_encoding("UTF-8").scan(/<span class="metadata">(.*)<\/span>/)
+          puts "--------------------------------------------------------------------"
+          puts tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
+
+          @tweet_date = tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
           puts @tweet_date
-          unless @tweet_date.nil?
+          unless @tweet_date.empty?
             break
           end
         end
