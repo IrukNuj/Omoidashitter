@@ -24,14 +24,15 @@ class HomeController < ApplicationController
 
       # テキストと時刻がちゃんと取得できるまでIDを回す
       loop do
-        @tweet_uri = Net::HTTP.get(URI.parse("https://twitter.com/#{@user[:nickname]}/status/#{session[:tweet_items].sample}"))
-        @tweet_text = @tweet_uri.force_encoding("UTF-8").scan(/<p class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text".+>(.+)<\/p>/)
+        tweet_uri = Net::HTTP.get(URI.parse("https://twitter.com/#{@user[:nickname]}/status/#{session[:tweet_items].sample}"))
+        puts tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
+        @tweet_text = tweet_uri.force_encoding("UTF-8").scan(/<p class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text".+>(.+)<\/p>/)
         puts @tweet_text
         unless @tweet_text.empty?
           puts @tweet_text
-          @tweet_date = @tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
+          @tweet_date = tweet_uri.scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
           puts @tweet_date
-          unless @tweet_date.empty?
+          unless @tweet_date.nil?
             break
           end
         end
