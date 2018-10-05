@@ -28,6 +28,7 @@ class HomeController < ApplicationController
         @tweet_text = @tweet_uri.force_encoding("UTF-8").scan(/<p class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text".+>(.+)<\/p>/)
         puts @tweet_text
         unless @tweet_text.empty?
+          puts @tweet_text
           @tweet_date = @tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
           puts @tweet_date
           unless @tweet_date.empty?
