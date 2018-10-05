@@ -18,8 +18,10 @@ class HomeController < ApplicationController
       if session[:tweet_items].nil?
         tweet_search
       end
-
+      puts "a"
       @user = User.find(session[:user_id])
+      puts "b"
+
       # テキストと時刻がちゃんと取得できるまでIDを回す
       loop do
         @tweet_uri = Net::HTTP.get(URI.parse("https://twitter.com/#{@user[:nickname]}/status/#{session[:tweet_items].sample}"))
@@ -31,6 +33,8 @@ class HomeController < ApplicationController
           end
         end
       end
+      puts "c"
+
 
       # 配列やダブルクオーテーションを処理
       @tweet_text = CGI.unescapeHTML(@tweet_text[0][0])
