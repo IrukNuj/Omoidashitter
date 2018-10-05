@@ -26,14 +26,15 @@ class HomeController < ApplicationController
       loop do
         @tweet_uri = Net::HTTP.get(URI.parse("https://twitter.com/#{@user[:nickname]}/status/#{session[:tweet_items].sample}"))
         @tweet_text = @tweet_uri.force_encoding("UTF-8").scan(/<p class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text".+>(.+)<\/p>/)
+        puts @tweet_text
         unless @tweet_text.empty?
           @tweet_date = @tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
+          puts @tweet_date
           unless @tweet_date.empty?
             break
           end
         end
       end
-      puts "c"
 
 
       # 配列やダブルクオーテーションを処理
