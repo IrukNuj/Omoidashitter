@@ -7,20 +7,50 @@ class HomeController < ApplicationController
       redirect_to action: 'login'
     else
       @user = User.find(session[:user_id])
+      @client = twitter_client
     end
   end
-
 
   def tweet
     if session[:user_id].nil?
       redirect_to action: 'login'
     else
-      if session[:tweet_items].nil?
-        tweet_search
-      end
-      puts "a"
       @user = User.find(session[:user_id])
-      puts "b"
+      @client = twitter_client
+
+      if session[:tweet_items].nil?
+        if session[:tweet_items].nil?
+          session[:tweet_items] = Array.new
+        end
+
+        search_count = @client.user.statuses_count / 200 + 1
+
+
+
+        search_count.times do |i|
+
+          @twi_items = @twi_result["items_html"]
+          twi_items_scaned = @twi_items.scan(/data-tweet-id="(.+)"/)
+          if twi_items_scaned.empty?
+            flash[:tweet_limit] = "一番古いツイートまで遡りました！"
+            break
+          end
+
+          # if i * 1.5 >= @search_count
+          session[:tweet_items].push(twi_items_scaned.sample)
+          # end
+          session[:tweet_items].flatten!
+          puts session[:tweet_items].last
+          @twi_ids.push(twi_items_scaned)
+          @twi_ids.flatten!
+          # session[:tweet_items].push(@twi_ids.sample)
+
+          # 実装時には死んでも消さないこと
+          sleep(0.5)
+        end
+
+      end
+
 
       # テキストと時刻がちゃんと取得できるまでIDを回す
       loop do
@@ -43,13 +73,7 @@ class HomeController < ApplicationController
             break
           end
         end
-
       end
-
-
-      # 配列やダブルクオーテーションを処理
-
-      # スクレイピングの都合で発生した各タグを処理。正規表現抜きで処理できるならしたい。
 
       # 文字数制限。
       @update_tweet_text = @tweet_text_link_excluded.truncate(120, omission: '...')
@@ -77,6 +101,7 @@ class HomeController < ApplicationController
 
       @search_count.times do |i|
         @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@twi_ids.last}&reset_error_state=false")
+        @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=683636977321680896&reset_error_state=false")
         puts @uli
         @twi_result = JSON.parse(Net::HTTP.get(@uri))
         @twi_items = @twi_result["items_html"]
@@ -109,55 +134,57 @@ class HomeController < ApplicationController
 
   private
 
-  def tweet_search
-    @user = User.find(session[:user_id])
-    @client = twitter_client
-
-    # sessionにツイートデータが無ければ、ツイート取得クローラ走らせてちょびちょびsessionに保存
-    if session[:tweet_items].nil?
-      if session[:tweet_items].nil?
-        session[:tweet_items] = Array.new
-      end
-      @search_count = 15 #35がいいよー！
-
-      @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1")
-      @twi_result = JSON.parse(Net::HTTP.get(@uri))
-
-      @twi_items = @twi_result["items_html"]
-      @twi_ids = @twi_items.scan(/data-tweet-id="(.+)"/)
-      @twi_ids.flatten!
-
-      @search_count.times do |i|
-        @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@twi_ids.last}&reset_error_state=false")
-        @twi_result = JSON.parse(Net::HTTP.get(@uri))
-        @twi_items = @twi_result["items_html"]
-        twi_items_scaned = @twi_items.scan(/data-tweet-id="(.+)"/)
-        if twi_items_scaned.empty?
-          flash[:tweet_limit] = "一番古いツイートまで遡りました！"
-          break
-        end
-        # if i * 1.5 >= @search_count
-        session[:tweet_items].push(twi_items_scaned.sample)
-        # end
-        session[:tweet_items].flatten!
-        puts session[:tweet_items].last
-        @twi_ids.push(twi_items_scaned)
-        @twi_ids.flatten!
-        # session[:tweet_items].push(@twi_ids.sample)
-
-        # 実装時には死んでも消さないこと
-        sleep(0.5)
-      end
-
-    end
-  end
-
   def twitter_client
     Twitter::REST::Client.new do |config|
       config.consumer_key = Rails.application.secrets.twitter_api_key
       config.consumer_secret = Rails.application.secrets.twitter_api_secret
-      config.access_token = @user.oauth_token
-      config.access_token_secret = @user.oauth_token_secret
+      config.access_token = @user[:oauth_token]
+      config.access_token_secret = @user[:oauth_token_secret]
     end
   end
+
+  # def tweet_search
+  #   @user = User.find(session[:user_id])
+  #   @client = twitter_client
+  #
+  #   # sessionにツイートデータが無ければ、ツイート取得クローラ走らせてちょびちょびsessionに保存
+  #   if session[:tweet_items].nil?
+  #     if session[:tweet_items].nil?
+  #       session[:tweet_items] = Array.new
+  #     end
+  #     @search_count = 15 #35がいいよー！
+  #
+  #     @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1")
+  #
+  #     @twi_result = JSON.parse(Net::HTTP.get(@uri))
+  #
+  #     @twi_items = @twi_result["items_html"]
+  #     @twi_ids = @twi_items.scan(/data-tweet-id="(.+)"/)
+  #     @twi_ids.flatten!
+  #
+  #     @search_count.times do |i|
+  #       @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@twi_ids.last}&reset_error_state=false")
+  #       @twi_result = JSON.parse(Net::HTTP.get(@uri))
+  #       @twi_items = @twi_result["items_html"]
+  #       twi_items_scaned = @twi_items.scan(/data-tweet-id="(.+)"/)
+  #       if twi_items_scaned.empty?
+  #         flash[:tweet_limit] = "一番古いツイートまで遡りました！"
+  #         break
+  #       end
+  #       # if i * 1.5 >= @search_count
+  #       session[:tweet_items].push(twi_items_scaned.sample)
+  #       # end
+  #       session[:tweet_items].flatten!
+  #       puts session[:tweet_items].last
+  #       @twi_ids.push(twi_items_scaned)
+  #       @twi_ids.flatten!
+  #       # session[:tweet_items].push(@twi_ids.sample)
+  #
+  #       # 実装時には死んでも消さないこと
+  #       sleep(0.5)
+  #     end
+  #
+  #   end
+  # end
+
 end
