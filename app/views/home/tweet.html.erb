@@ -1,10 +1,10 @@
-<script>
-    $(function(){
-        $("#twi-load").on('click',function(){
-            $('<div id="loading-view" />').appendTo('body');
-        });
-    });
-</script>
+<!--<script>-->
+<!--    $(function(){-->
+<!--        $("#twi-load").on('click',function(){-->
+<!--            $('<div id="loading-view" />').appendTo('body');-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 
 <div class="loading"></div>
 
@@ -26,11 +26,11 @@
         <div class="content">
           <p>
             <strong><%= @user[:name] %></strong>
-            <small><%= @user[:nickname] %></small>
+            <small>@<%= @user[:nickname] %></small>
             <br>
-            <%= @tweet_text_link_excluded %>
+            <%= @update_tweet_text %>
             <br>
-            <%= @tweet_date %>
+            <%= @update_tweet_date %>
           </p>
         </div>
       </div>
@@ -39,6 +39,6 @@
   <br>
 
   <a class="button is-info" href="https://twitter.com/share?url=https://hogehoge.com&text=<%= @update_text %>&hashtags=おもいだしったー" target="_blank" class="twitter-share-button" data-show-count="false">この思い出しをツイート</a>
-  <%= link_to "もっと昔のツイートを思い出す！", {:controller => :home, :action => :tweet_search_repeat}, :id => 'twi-load', :class => "button is-info" %>
+  <%#= link_to "もっと昔のツイートを思い出す！", {:controller => :home, :action => :tweet_search_repeat}, :id => 'twi-load', :class => "button is-info" %>
 
 </div>

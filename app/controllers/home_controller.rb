@@ -8,6 +8,7 @@ class HomeController < ApplicationController
     else
       @user = User.find(session[:user_id])
       @client = twitter_client
+      @res = Twitter::REST::Request.new(@client, :get, '/1.1/application/rate_limit_status.json').perform
     end
   end
 
@@ -17,67 +18,36 @@ class HomeController < ApplicationController
     else
       @user = User.find(session[:user_id])
       @client = twitter_client
-
       if session[:tweet_items].nil?
         if session[:tweet_items].nil?
           session[:tweet_items] = Array.new
         end
-
-        search_count = @client.user.statuses_count / 200 + 1
-
-
+        search_count = @client.user.statuses_count / 200
+        puts "serch_count = #{search_count}"
 
         search_count.times do |i|
-
-          @twi_items = @twi_result["items_html"]
-          twi_items_scaned = @twi_items.scan(/data-tweet-id="(.+)"/)
-          if twi_items_scaned.empty?
-            flash[:tweet_limit] = "一番古いツイートまで遡りました！"
+          if @twi_items_last_id
+            twi_items = @client.user_timeline(count: 200,max_id: @twi_items_last_id)
+          else
+            twi_items = @client.user_timeline(count: 200)
+          end
+          @twi_items_last_id = twi_items.last.id
+          twi_item_selected_random = twi_items.sample
+          twi_item_selected_random_time = twi_item_selected_random.created_at
+          twi_item_selected_random_text = twi_item_selected_random.text
+          session[:tweet_items].push('time' => twi_item_selected_random_time ,'text' => twi_item_selected_random_text)
+          if i >= 20
             break
           end
-
-          # if i * 1.5 >= @search_count
-          session[:tweet_items].push(twi_items_scaned.sample)
-          # end
-          session[:tweet_items].flatten!
           puts session[:tweet_items].last
-          @twi_ids.push(twi_items_scaned)
-          @twi_ids.flatten!
-          # session[:tweet_items].push(@twi_ids.sample)
-
-          # 実装時には死んでも消さないこと
-          sleep(0.5)
-        end
-
-      end
-
-
-      # テキストと時刻がちゃんと取得できるまでIDを回す
-      loop do
-        tweet_id = session[:tweet_items].sample
-        tweet_uri = Net::HTTP.get(URI.parse("https://twitter.com/#{@user[:nickname]}/status/#{tweet_id}"))
-        puts tweet_uri.force_encoding("UTF-8").scan(/<span>.*(\d{4}年\d{1,2}月\d{1,2}日)<\/span>/)
-        @tweet_text = tweet_uri.force_encoding("UTF-8").scan(/<p class="TweetTextSize TweetTextSize--jumbo js-tweet-text tweet-text".+>(.+)<\/p>/)
-
-        unless @tweet_text.empty?
-          # 配列やダブルクオーテーションを処理
-          @tweet_text = CGI.unescapeHTML(@tweet_text[0][0])
-          # スクレイピングの都合で発生した各タグを処理。正規表現抜きで処理できるならしたい。
-          @tweet_text_link_excluded = @tweet_text.gsub(/<.*?>/, "").gsub(/<\/a>/, "")
-          @tweet_date = Time.at(((tweet_id.to_i >> 22) + 1288834974675) / 1000.0).strftime("%Y年%m月%d日")
-
-          unless @tweet_text_link_excluded.empty?
-            puts @tweet_text
-            puts "--------------------------------------------------------------------"
-            puts @tweet_date
-            break
-          end
         end
       end
+      update_tweet = session[:tweet_items].sample
+      puts update_tweet
 
-      # 文字数制限。
-      @update_tweet_text = @tweet_text_link_excluded.truncate(120, omission: '...')
-      @update_text = "#{@update_tweet_text} \r\n#{@tweet_date}"
+      @update_tweet_text = update_tweet['text'].truncate(120, omission: '...')
+      @update_tweet_date = update_tweet['time'].to_s[0,10]
+      @update_text = "#{@update_tweet_text} \r\n#{@update_tweet_date}"
     end
   end
 
@@ -134,14 +104,14 @@ class HomeController < ApplicationController
 
   private
 
-  def twitter_client
-    Twitter::REST::Client.new do |config|
-      config.consumer_key = Rails.application.secrets.twitter_api_key
-      config.consumer_secret = Rails.application.secrets.twitter_api_secret
-      config.access_token = @user[:oauth_token]
-      config.access_token_secret = @user[:oauth_token_secret]
+    def twitter_client
+      Twitter::REST::Client.new do |config|
+        config.consumer_key = Rails.application.secrets.twitter_api_key
+        config.consumer_secret = Rails.application.secrets.twitter_api_secret
+        config.access_token = @user.oauth_token
+        config.access_token_secret = @user.oauth_token_secret
+      end
     end
-  end
 
   # def tweet_search
   #   @user = User.find(session[:user_id])

@@ -45,6 +45,7 @@ gem 'bulma-rails'
 gem 'honoka-rails', '>= 3.3.6.3'
 gem 'webpacker'
 gem 'rails-ujs'
+gem 'font-awesome-rails'
 # https://qiita.com/Terunaga/items/19d4f49f3abd3316f098
 gem 'jquery-turbolinks'
 
