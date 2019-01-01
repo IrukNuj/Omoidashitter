@@ -1,0 +1,48 @@
+section.section
+  .container
+    .card
+      .card-content
+        .media
+          .media-left
+            figure.image.is-48x48
+              |  <img class="usericon-image" src=
+              = @user[:image_url]
+              |  alt="Placeholder image"> 
+          .media-content
+            p.title.is-4
+              =@user[:name]
+            p.subtitle.is-6
+              = "@#{@user[:nickname]}"
+        .content
+          p
+            = @user[:description]
+        nav.level.is-mobile
+          .level-item.has-text-centered
+            div
+              p.heading
+                | Tweets
+              p.subtitle
+                = @client.user.statuses_count
+          .level-item.has-text-centered
+            div
+              p.heading
+                | Following
+              p.subtitle
+                = @client.user.friends_count
+          .level-item.has-text-centered
+            div
+              p.heading
+                | Followers
+              p.subtitle
+                = @client.user.followers_count
+          .level-item.has-text-centered
+            div
+              p.heading
+                | Likes
+              p.subtitle
+                = @client.user.favourites_count
+    br
+    = link_to "ツイートを思い出す" ,{:controller => "home", :action => "tweet"},:class => "button is-info"
+    = link_to "logout" ,{:controller => "sessions", :action => "destroy"},:class => "button is-info"
+- if flash[:success]
+  = flash[:success]

@@ -1,0 +1,18 @@
+doctype html
+html
+  head
+    title
+      | Omoidashitter
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+    - #= javascript_pack_tag 'hello_react'
+  body
+    nav.navbar.is-primary[role="navigation" aria-label="main navigation"]
+      .navbar-brand.subtitle.is-4
+        a.navbar-item[href="/"]
+          |  Omoidashitter 
+    - # javascript_pack_tag 'hello_react'
+    .section
+      = yield
