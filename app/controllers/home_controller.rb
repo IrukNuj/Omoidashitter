@@ -15,35 +15,34 @@ class HomeController < ApplicationController
   def tweet
     if session[:user_id].nil?
       redirect_to action: 'login'
+
     else
       @user = User.find(session[:user_id])
       @client = twitter_client
       if session[:tweet_items].nil?
-        if session[:tweet_items].nil?
-          session[:tweet_items] = Array.new
-        end
-        search_count = @client.user.statuses_count / 200
-        puts "serch_count = #{search_count}"
+        session[:tweet_items] = Array.new if session[:tweet_items].nil?
 
-        search_count.times do |i|
-          if @twi_items_last_id
-            twi_items = @client.user_timeline(count: 200,max_id: @twi_items_last_id)
+        search_times = @client.user.statuses_count / 200
+        puts "search_count = #{search_times}" # デバッグ用
+
+        search_times.times do |i|
+          if @tweets_last_id
+            tweets = @client.user_timeline(count: 200,max_id: @tweets_last_id)
           else
-            twi_items = @client.user_timeline(count: 200)
+            tweets = @client.user_timeline(count: 200)
           end
-          @twi_items_last_id = twi_items.last.id
-          twi_item_selected_random = twi_items.sample
-          twi_item_selected_random_time = twi_item_selected_random.created_at
-          twi_item_selected_random_text = twi_item_selected_random.text
-          session[:tweet_items].push('time' => twi_item_selected_random_time ,'text' => twi_item_selected_random_text)
-          if i >= 20
-            break
-          end
-          puts session[:tweet_items].last
+
+          @tweets_last_id = tweets.last.id
+
+          tweet_sample = tweets.sample
+          session[:tweet_items].push('time' => tweet_sample.created_at ,'text' => tweet_sample.text)
+          break if i >= 20 # APIリミッタ用のbreak if
+          puts session[:tweet_items].last# デバッグ用
         end
       end
+
       update_tweet = session[:tweet_items].sample
-      puts update_tweet
+      puts update_tweet # デバッグ用
 
       @update_tweet_text = update_tweet['text'].truncate(120, omission: '...')
       @update_tweet_date = update_tweet['time'].to_s[0,10]
