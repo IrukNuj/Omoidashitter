@@ -80,3 +80,6 @@ gem 'rails-ujs'
 gem 'font-awesome-rails'
 # https://qiita.com/Terunaga/items/19d4f49f3abd3316f098
 gem 'jquery-turbolinks'
+gem 'hpricot'
+gem 'thin'
+
