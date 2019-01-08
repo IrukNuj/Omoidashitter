@@ -48,8 +48,8 @@ group :development do
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'rspec-rails', '~> 2.14.0'
-  gem 'factory_girl_rails', '~> 4.2.1'
+  gem 'rspec-rails', '3.8.1'
+  gem 'factory_bot_rails', '4.11.1'
 end
 
 group :test do
@@ -58,7 +58,7 @@ group :test do
   gem 'selenium-webdriver', '~>2.45.0'
   # Easy installation and use of chromedriver to run system tests with Chrome
   gem 'chromedriver-helper'
-  gem 'faker', '~> 1.1.2'
+  gem 'faker', '1.9.1'
   gem 'database_cleaner', '~> 1.0.1'
   gem 'launchy', '~> 2.3.0'
 end
