@@ -6,7 +6,6 @@ WORKDIR $APP_ROOT
 RUN apt-get update -qq && \
     apt-get install -y nodejs \
                        mysql-client \
-                       postgresql-client \
                        --no-install-recommends && \
     rm -rf /var/lib/apt/lists/*
     # -qq : エラー以外表示しない
