@@ -1,3 +1,1 @@
-# README
-
-URL　https://omoidashiter.herokuapp.com/
+URL : https://omoidashiter.herokuapp.com/
