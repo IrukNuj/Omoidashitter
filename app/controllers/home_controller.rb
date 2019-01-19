@@ -6,10 +6,12 @@ class HomeController < ApplicationController
     if session[:user_id].nil?
       redirect_to action: 'login'
     else
-      @user = User.find(session[:user_id])
-      @client = twitter_client
-      # リソース確認用
-      @res = Twitter::REST::Request.new(@client, :get, '/1.1/application/rate_limit_status.json').perform
+      if User.find_by(id: session[:user_id])
+        @user = User.find_by(id: session[:user_id])
+        @client = twitter_client
+        # リソース確認用
+        @res = Twitter::REST::Request.new(@client, :get, '/1.1/application/rate_limit_status.json').perform
+      end
     end
   end
 
