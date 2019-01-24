@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   get 'home/index'
-  get 'home/login', to: 'new'
+  get 'home/login', to: 'home#new'
   get 'home/tweet', to: 'home#show'
   get 'home/tweet_search_repeat'
   get 'sessions/create'

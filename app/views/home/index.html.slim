@@ -42,7 +42,7 @@ section.section
               p.subtitle
                 = @client.user.favourites_count
     br
-    = link_to "ツイートを思い出す" ,{:controller => "home", :action => "tweet"},:class => "button is-info"
+    = link_to "ツイートを思い出す" ,{:controller => "home", :action => "show"},:class => "button is-info"
     = link_to "logout" ,{:controller => "sessions", :action => "destroy"},:class => "button is-info"
 - if flash[:success]
   = flash[:success]
