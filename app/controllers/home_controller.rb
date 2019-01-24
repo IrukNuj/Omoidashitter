@@ -13,7 +13,7 @@ class HomeController < ApplicationController
     end
   end
 
-  def tweet
+  def show
     if session[:user_id].nil?
       redirect_to action: 'login'
     else
@@ -51,7 +51,7 @@ class HomeController < ApplicationController
   end
 
 
-  def login
+  def new
   end
 
   def tweet_search_repeat
