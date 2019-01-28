@@ -15,7 +15,7 @@ class HomeController < ApplicationController
     end
   end
 
-  def tweet
+  def show
     if session[:user_id].nil?
       redirect_to action: 'login'
     else
@@ -59,55 +59,7 @@ class HomeController < ApplicationController
     end
   end
 
-
-  def login
-  end
-
-  def tweet_search_repeat
-    # sessionにツイートデータが無ければ、ツイート取得クローラ走らせてちょびちょびsessionに保存
-    if session[:tweet_items]
-      @user = User.find(session[:user_id])
-      @search_count = 20
-      @first_twi_id = "#{session[:tweet_items].last}"
-      session[:tweet_items_new] = Array.new
-      @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@first_twi_id}&reset_error_state=false")
-      @twi_result = JSON.parse(Net::HTTP.get(@uri))
-
-      @twi_items = @twi_result["items_html"]
-      @twi_ids = @twi_items.scan(/data-tweet-id="(.+)"/)
-      @twi_ids.flatten!
-
-      @search_count.times do |i|
-        @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=#{@twi_ids.last}&reset_error_state=false")
-        @uri = URI.parse("https://twitter.com/i/profiles/show/#{@user.nickname}/timeline/tweets?include_available_features=1&include_entities=1&max_position=683636977321680896&reset_error_state=false")
-        puts @uli
-        @twi_result = JSON.parse(Net::HTTP.get(@uri))
-        @twi_items = @twi_result["items_html"]
-        twi_items_scaned = @twi_items.scan(/data-tweet-id="(.+)"/)
-
-        if twi_items_scaned.empty?
-          session[:tweet_items] = session[:tweet_items_new] if i >= 10
-          flash[:tweet_limit] = "一番古いツイートまで遡りました！"
-          break
-        end
-
-        session[:tweet_items_new].push(twi_items_scaned.sample)
-        session[:tweet_items_new].flatten!
-        puts session[:tweet_items_new].last
-        @twi_ids.push(twi_items_scaned)
-        @twi_ids.flatten!
-        # session[:tweet_items].push(@twi_ids.sample)
-
-        # 実装時には死んでも消さないこと
-        sleep(0.5)
-      end
-      unless session[:tweet_items_new].empty?
-        session[:tweet_items] = session[:tweet_items_new]
-      end
-    end
-
-    redirect_to home_tweet_url, status: 301
-
+  def new
   end
 
   private
