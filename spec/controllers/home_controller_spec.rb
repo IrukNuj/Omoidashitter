@@ -67,9 +67,6 @@ RSpec.describe HomeController, type: :controller do
     before do
       get :login
     end
-    it '200ステータスを返すこと' do
-      expect(response.status).to eq 200
-    end
     it '/login　にアクセスできること' do
       expect(response).to render_template :login
     end
