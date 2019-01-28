@@ -46,6 +46,7 @@ class HomeController < ApplicationController
 
             break if tweets.length == 1 || i > 30
             # puts session[:tweet_items].last# デバッグ用
+          end
         end
 
         update_tweet = session[:tweet_items].sample
