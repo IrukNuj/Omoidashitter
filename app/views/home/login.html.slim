@@ -1,11 +1,11 @@
 section.section
   .container
     h1.title
-      | Omoidashitterへようこそ！
+      | 「おもいだしったー」へようこそ！
     h2.subtitle
-      |  Omoidashitterは簡単にあなたのツイートを思い出せるアプリです！ 
-    .columns
-      .column
+      |  おもいだしったーはあなたのツイートを思い出せるアプリです！
+    .level
+      .level-item.is-block
         .box
           article.media
             .media-left
@@ -17,33 +17,22 @@ section.section
                   strong
                     | Twitterの簡単ログインで使える！
                   br
-                  |  ボタンをクリックしてTwitter認証するだけで使えます！ 
-      .column
+                  |  ボタンをクリックしてTwitter認証するだけで使えます！
         .box
           article.media
             .media-left
               figure.image.is-64x64
-                = fa_icon 'sign-in 4x'
+                = fa_icon 'twitter 4x'
             .media-content
               .content
                 p
                   strong
-                    | Twitterの簡単ログインで使える！
+                    | 結果はすぐに呟けます！
                   br
-                  |  ボタンをクリックしてTwitter認証するだけで使えます！ 
-      .column
-        .box
-          article.media
-            .media-left
-              figure.image.is-64x64
-                = fa_icon 'sign-in 4x'
-            .media-content
-              .content
-                p
-                  strong
-                    | Twitterの簡単ログインで使える！
-                  br
-                  |  ボタンをクリックしてTwitter認証するだけで使えます！ 
-    = link_to "ツイッターでログインする", "/auth/twitter", :class => "button is-info is-large is-fullwidth"
-    = image_tag('eruko.png', :size => "320x320")
+                  |  #Omoidashitter に乗せてノスタルジックに浸って下さい！
+      .level-item
+        = image_tag('eruko.png', :size => "320x320")
+    = link_to "/auth/twitter", :class => "button is-info is-large is-fullwidth" do
+      i.fa.fa-twitter   Twitterでログインする
+    end
 br

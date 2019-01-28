@@ -25,22 +25,27 @@ class HomeController < ApplicationController
         if session[:tweet_items].nil?
           session[:tweet_items] = Array.new if session[:tweet_items].nil?
 
-          search_times = @client.user.statuses_count / 200
-          puts "search_count = #{search_times}" # デバッグ用
+          search_times = @client.user.statuses_count / 100
+          # puts "search_count = #{search_times}" # デバッグ用
 
           search_times.times do |i|
             if @tweets_last_id
-              tweets = @client.user_timeline(count: 200,max_id: @tweets_last_id)
+              tweets = @client.user_timeline(count: 200,max_id: @tweets_last_id, exclude_replies: true)
             else
-              tweets = @client.user_timeline(count: 200)
+              tweets = @client.user_timeline(count: 200, exclude_replies: true)
             end
+
+            # tweets.each do |tweet|
+            #   puts tweet.text
+            # end
 
             @tweets_last_id = tweets.last.id
             tweet_sample = tweets.sample
             session[:tweet_items].push('time' => tweet_sample.created_at ,'text' => tweet_sample.text)
-            break if i >= 20 # APIリミッタ用のbreak if
-            puts session[:tweet_items].last# デバッグ用
-          end
+            # break if i >= 3 # APIリミッタ用のbreak if
+
+            break if tweets.length == 1 || i > 30
+            # puts session[:tweet_items].last# デバッグ用
         end
 
         update_tweet = session[:tweet_items].sample
