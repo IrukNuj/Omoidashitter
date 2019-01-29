@@ -24,7 +24,11 @@
             br
             = @update_tweet_date
   br
-  |  <a class="button is-info" href="https://twitter.com/share?url=https://hogehoge.com&text=
-  = @update_text
-  | &hashtags=おもいだしったー" target="_blank" class="twitter-share-button" data-show-count="false">この思い出しをツイート
-  - #= link_to "もっと昔のツイートを思い出す！", {:controller => :home, :action => :tweet_search_repeat}, :id => 'twi-load', :class => "button is-info"
+
+  .level
+    .level-item
+      |  <a class="button is-info is-medium" href="https://twitter.com/share?url=https://hogehoge.com&text=
+      = @update_text
+      | &hashtags=おもいだしったー" target="_blank" class="twitter-share-button" data-show-count="false">この思い出しをツイート
+    .level-item
+      = link_to "他のツイートを思い出す！", {:controller => :home, :action => :show}, :id => 'twi-load', :class => "button is-info is-medium"
