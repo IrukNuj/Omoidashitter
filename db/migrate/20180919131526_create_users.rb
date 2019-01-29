@@ -7,6 +7,9 @@ class CreateUsers < ActiveRecord::Migration[5.2]
       t.string :name
       t.string :image_url
       t.string :description
+      t.string :oauth_token
+      t.string :oauth_token_secret
+      t.string :tweet_items
       t.timestamps
     end
   end
