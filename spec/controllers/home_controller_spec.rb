@@ -9,7 +9,7 @@ RSpec.describe HomeController, type: :controller do
         get :index
       end
       it 'リダイレクト処理を返すこと' do
-        expect(response).to redirect_to(home_login_path)
+        expect(response).to redirect_to(login_path)
       end
     end
 
@@ -37,10 +37,10 @@ RSpec.describe HomeController, type: :controller do
 
     describe 'Oauth認証していなければ' do
       before do
-        get :tweet
+        get :show
       end
       it 'リダイレクト処理を返すこと' do
-        expect(response).to redirect_to(home_login_path)
+        expect(response).to redirect_to(login_path)
       end
     end
 
@@ -55,10 +55,10 @@ RSpec.describe HomeController, type: :controller do
            },
          })
         session[:user_id] = OmniAuth.config.mock_auth[:twitter].uid
-        get :tweet
+        get :show
       end
       it '/index に飛ばすこと' do
-        expect(response).to render_template :tweet
+        expect(response).to render_template :show
       end
     end
   end
