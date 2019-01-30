@@ -50,7 +50,7 @@ class HomeController < ApplicationController
         end
 
         update_tweet = session[:tweet_items].sample
-        puts update_tweet # デバッグ用
+        # puts update_tweet # デバッグ用
 
         # 以下つぶやき用
         @update_tweet_text = update_tweet['text'].truncate(120, omission: '...')
