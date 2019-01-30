@@ -46,3 +46,23 @@ html {
   height: 100vh;
   background-image: image_url("back-ground_image.png");
 }
+
+body {
+  height: 100vh;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: 0;
+  background-color: #02d0b2;
+}
+
+.tweet-date {
+  padding-top: 1vh;
+}
+
+.copyright {
+  color: #FFFFFF;
+}
