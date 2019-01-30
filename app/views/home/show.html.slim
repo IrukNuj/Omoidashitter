@@ -4,24 +4,25 @@
     p
       = flash[:tweet_limit]
 #wrap
-  .box
-    article.media
-      figure.media-left
-        figure.image.is-64x64
-          | <img class="usericon-image" src=
-          = @user[:image_url]
-          | >
-      .media-content
-        .content
-          p
-            strong
-              = @user[:name]
-            small
-              | @
-              = @user[:nickname]
-            br
-            = @update_tweet_text
-            .tweet-date = @update_tweet_date
+  .tweet-content
+    .box
+      article.media
+        figure.media-left
+          figure.image.is-64x64
+            | <img class="usericon-image" src=
+            = @user[:image_url]
+            | >
+        .media-content
+          .content
+            p
+              strong
+                = @user[:name]
+              small
+                | @
+                = @user[:nickname]
+              br
+              = @update_tweet_text
+              .tweet-date = @update_tweet_date
   br
   .level
     .level-item
