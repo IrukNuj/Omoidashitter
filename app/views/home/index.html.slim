@@ -45,8 +45,13 @@ section.section
     .under-profile
       .level
         .level-item
-          = link_to "ツイートを思い出す" ,{:controller => "home", :action => "show"},:class => "button is-info is-medium"
+          p = link_to "ツイートを思い出す" ,{:controller => "home", :action => "show"},:class => "button is-info is-medium"
         .level-item
           = link_to "ログアウト" ,{:controller => "sessions", :action => "destroy"},:class => "button is-info is-medium"
+      .level
+        .level-item
+          p ※Tweet数が多いと少し時間がかかります。
+        .level-item
+        .level-item
 - if flash[:success]
   = flash[:success]
