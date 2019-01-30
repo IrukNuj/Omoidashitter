@@ -8,9 +8,9 @@
     article.media
       figure.media-left
         figure.image.is-64x64
-          |  <img class="usericon-image" src=
+          | <img class="usericon-image" src=
           = @user[:image_url]
-          | > 
+          | >
       .media-content
         .content
           p
@@ -21,10 +21,8 @@
               = @user[:nickname]
             br
             = @update_tweet_text
-            br
-            = @update_tweet_
+            .tweet-date = @update_tweet_date
   br
-
   .level
     .level-item
       | <a class="button is-info is-medium" href="https://twitter.com/share?url=https://hogehoge.com&text=
