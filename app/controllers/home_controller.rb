@@ -25,7 +25,7 @@ class HomeController < ApplicationController
         if session[:tweet_items].nil?
           session[:tweet_items] = Array.new
 
-          search_times = @client.user.statuses_count / 100 + 1
+          search_times = @client.user.statuses_count / 200 + 1
           # puts "search_count = #{search_times}" # デバッグ用
 
           search_times.times do |i|
@@ -41,8 +41,7 @@ class HomeController < ApplicationController
 
             @tweets_last_id = tweets.last.id
             tweet_sample = tweets.sample
-            session[:tweet_items].push('time' => tweet_sample.created_at ,'text' => tweet_sample.text)
-            # break if i >= 3 # APIリミッタ用のbreak if
+            session[:tweet_items].push('time' => tweet_sample.created_at ,'text' => tweet_sample.text) if (i+1)*2 >= search_times
 
             break if tweets.length == 1 || i > 20
             # puts session[:tweet_items].last# デバッグ用
