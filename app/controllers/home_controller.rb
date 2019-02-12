@@ -41,10 +41,7 @@ class HomeController < ApplicationController
 
             @tweets_last_id = tweets.last.id
             tweet_sample = tweets.sample
-            if (i+1)*2 >= search_times
-              session[:tweet_items].push('time' => tweet_sample.created_at ,'text' => tweet_sample.text)
-              # break if i >= 3 # APIリミッタ用のbreak if
-            end
+            session[:tweet_items].push('time' => tweet_sample.created_at ,'text' => tweet_sample.text) if (i+1)*2 >= search_times
 
             break if tweets.length == 1 || i > 20
             # puts session[:tweet_items].last# デバッグ用
