@@ -26,6 +26,7 @@ class HomeController < ApplicationController
           session[:tweet_items] = Array.new
 
           search_times = @client.user.statuses_count / 200 + 1
+          search_times = 20 if search_times >= 20
           # puts "search_count = #{search_times}" # デバッグ用
 
           search_times.times do |i|
